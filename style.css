@@ -51,7 +51,7 @@ div#container {
     margin: 0 auto;
 /* center, not in IE5 */    width: 100%;
     height: auto !important; /* real browsers */;
-    height: 100%; /* IE6: treaded as min-height*/;
+    height: 100%; /* IE6: treated as min-height*/;
     min-height: 100%; /* real browsers */
 }
 div#header {
@@ -60,22 +60,28 @@ div#header {
 div#content {
     padding: .3em; /* bottom padding for content */
 }
+
+p#phase {
+  font-size: 20px;
+}
 div#footer {
-    position: absolute;
-    padding: 0em 0em 1em 0em;
+    /* position: absolute; */
+    position: relative;
+    padding: 1em 0em 1em 0em;
     width: 100%;
     bottom: 0; /* stick to bottom */;
+    line-height: 1.25
 }
 
 img#moon{
 padding: 1em 1em 1em 1em;
 }
 
-@media only screen and (max-height: 850px) {
+/* @media only screen and (max-height: 850px) {
     div#footer {
         display: none;
     }
-}
+} */
 
 
 /* star generation inspired by Parallax Star background in CSS by A PEN BY Saransh Sinha on Codepen */

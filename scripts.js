@@ -1,46 +1,60 @@
 // Retrieve a unix timestamp for date
 var timestamp = Math.round(new Date().getTime() / 1000); //Returns a unix timestamp ie. 1572958651
 
-// Make request to Farmsense API to retrieve moon phase
+
+// Make request to ipgeolocation API to retrieve moon phase,
+// as Farmsense has been "sent to a farm upstate," apparently. (https://learn.adafruit.com/moon-phase/code)
+// RIP, farmsense
+// this example currently uses the Devil's Hopyard State Park coordinates, so substitute your own unless you live there.
+// If you live there, you may be the devil. And hopping. At least you're not doing it in the house.
+// Even if you are the devil, you'll need your own API key. You are only so powerful.
 let moon = new XMLHttpRequest();
-moon.open('GET', 'https://cors-anywhere.herokuapp.com/http://api.farmsense.net/v1/moonphases/?d='+timestamp, true);
-//moon.open('GET', 'http://api.farmsense.net/v1/moonphases/?d=59666674651', true); //uncomment for testing purposes
-/*
-TIMESTAMP TESTS
-11% Waning Crescent: 49403867651 **
-100% Full Moon: 39209867651
-Waxing Crescent: 59403867651
-1st Quarter: 59666674651
-Waning Crescent: 5998374651
-New Moon: 5993902651
-31% Waxing Cresecnet: 5900002651
-30% Waxing Crescent: 6900115651
-3% Waning Crescent: 88379867651
-*/
+moon.open('GET', 'https://api.ipgeolocation.io/v2/astronomy?apiKey={YOUR API KEY GOES HERE and remove the brackets}&lat=41.49&long=-72.34, true);
+
+const requestOptions = {
+  method: "GET",
+  redirect: "follow"
+};
+
+// in which we yoink the data we want from the API call and do some futzing with it
+// but not a ton of futzing
+
 moon.onload = function moonphase() {
   // Convert JSON data to an object to parse
   var moonresult = JSON.parse(this.response);
   var str = JSON.stringify(moonresult);
-  //set variable for phase
-  var PhaseLocation = str.search("Phase");
-  var PhaseString = str.slice(PhaseLocation+8,(PhaseLocation+50));
-  var PhaseStringLocation = PhaseString.indexOf('"');
-  var phase = PhaseString.slice(0,(PhaseStringLocation));
-  document.getElementById("phase").innerHTML = phase;
-  //set variable for moon type
-  var MoonLocation = str.search("Moon");
-  var MoonString = str.slice(MoonLocation+8,(MoonLocation+50));
-  var MoonStringLocation = MoonString.indexOf('"');
-  var moon = MoonString.slice(0,(MoonStringLocation));
-  document.getElementById("type").innerHTML = '"'+moon+'"';
-  //set variable for moon illumination
-  var IlluminationLocation = str.search("Illumination");
-  var illumination = str.slice(IlluminationLocation+14,(IlluminationLocation+19));
-  var index = illumination.indexOf(",");
-  var finalIllumination = illumination.slice(0,index);
-  //compute percentage based off illumination
-  percentage = (finalIllumination * 100)+"%";
 
+  //set variable for "phase" - now we futz
+  // ipgeolocation returns the phase in all caps, with an underscore intead of a space
+  // we'll fix that in the phase jazz, just watch!
+  var phase = moonresult.astronomy.moon_phase.replace(/[_]/g,' ').toLowerCase();// change underscore to space, and make it stop yelling
+ 
+  // since ipgeolocation doesn't have the data farmsense did for "type," 
+  // I tweaked some text for the final result
+  // not enough tweaking to rise to the level of futzing, don't panic
+  document.getElementById("phase").innerHTML = ("That's the "+ phase +" for you.");
+ 
+  //-----------------------------------------------
+  // **** ---- set variable for moon type ---- ****
+  //-----------------------------------------------
+  // ipgeolocation doesn't provide this data, and I couldn't find anywhere that did
+  // that didn't require a paid subscription, which seems like overkill for this right now
+  // and I think I only found like one anyway
+  // so the moon type becomes the moon phase
+  var moon = (moonresult.astronomy.moon_phase);
+
+  // set variable for moon illumination, which is provided without need to convert or even consider math
+  // so basically we only need to set the final illumination for the litness calculations
+  // and the percentage for the "the moon is X% lit" line
+  // and this may be an unnecessary step, or there may be a better way, but I was winging it
+  // just because I wanted to see it work
+
+  percentage = (moonresult.astronomy.moon_illumination_percentage)+"%";
+  finalIllumination = (moonresult.astronomy.moon_illumination_percentage/100);
+
+  // I think I only changed one line after this point.
+  // see if you can figure out which one it is
+  // or don't, it's not a big deal
   //set picture and text output based off moon illumination
   if (finalIllumination >  0.00 && finalIllumination < 0.10) {
     document.getElementById("moon").src="moon-phases/0.0.svg";
@@ -69,7 +83,7 @@ moon.onload = function moonphase() {
   }
   if (finalIllumination >=  0.5 && finalIllumination < 0.6) {
     document.getElementById("moon").src="moon-phases/0.5.svg";
-    document.getElementById("litness").innerHTML = "Half dark and half lit... moon you're being so bipolar.";
+    document.getElementById("litness").innerHTML = "Half dark and half lit...just pick one, The Moon.";
     document.getElementById("percentage").innerHTML = "The moon is "+percentage+" lit.";
   }
   if (finalIllumination >=  0.6 && finalIllumination < 0.7) {
