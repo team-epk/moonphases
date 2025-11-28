@@ -1,9 +1,9 @@
 # phase 🌘
 #### The moon is pretty *lit*. But just how lit is it?
-Historical section:
+### Historical intro:
 This simple one page site visually represents the current phase of the moon. I built it to demo an introductory example of practical API use cases. [View it here](https://doerrfeldbill.github.io/phase/). *The sample site no longer functions due to API changes since programming this project.*
 
-Updated section:
+### Updated intro:
 In 2025, I (team-epk) found the original project and wanted to get it working. I messed around with it while Farmsense was still somewhat functional. Then I did some other stuff. Then I came back and Farmsense was in various states of broken depending on the day. (Though [Adafruit has bailed entirely](https://learn.adafruit.com/moon-phase/code) so maybe Farmsense has truly, ahem, bought the farm.) Just to see if I could make it work, I rejiggered as much as I could using the [IPGeolocation Astronomy API](https://ipgeolocation.io/astronomy-api.html). It's not a 1:1 replacement, so things had to be adjusted (for example, it doesn't have the data that had been used for "type," which of course was the part I really liked). But the general functionality is still there, with a few changes.
 
 🌘🌓🌔🌕🌖🌗🌒
@@ -16,7 +16,7 @@ In 2025, I (team-epk) found the original project and wanted to get it working. I
 ## How it Works
 Given a unix timstamp, IPGeolocation returns information on the current moon phase and illumination percentage. For now, the colloquial phase name is not provided until another way of finding that is discovered.
 
-Here is an example response, using the Devil's Hopyard State Park's latitude and longitude:
+Here is an example response, using the [Devil's Hopyard State Park](https://en.wikipedia.org/wiki/Devil's_Hopyard_State_Park)'s latitude and longitude:
 
 ````
 location	
@@ -93,6 +93,8 @@ Depending on what the API returns, the script loads different images to reflect 
 ````
 
 ## Disclaimer
-Original: This was made for fun. Code is not elegant. It's just for sample purposes. This is a personal project and not intended for commercial use.
+### Original: 
+This was made for fun. Code is not elegant. It's just for sample purposes. This is a personal project and not intended for commercial use.
 
-Update: This was tweaked and updated for fun. Code is not elegant. It's just for sample purposes. This is a personal project and not intended for commercial use. Thanks Bill for giving me something to tinker with.
+###Updated: 
+This was tweaked and updated for fun. Code is not elegant. It's just for sample purposes. This is a personal project and not intended for commercial use. Thanks Bill for giving me something to tinker with.
