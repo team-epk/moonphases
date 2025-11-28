@@ -96,5 +96,5 @@ Depending on what the API returns, the script loads different images to reflect 
 ### Original: 
 This was made for fun. Code is not elegant. It's just for sample purposes. This is a personal project and not intended for commercial use.
 
-###Updated: 
+### Updated: 
 This was tweaked and updated for fun. Code is not elegant. It's just for sample purposes. This is a personal project and not intended for commercial use. Thanks Bill for giving me something to tinker with.
